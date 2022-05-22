@@ -1,0 +1,101 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My API",
+    "description": "Description",
+    "version": "1.0.0"
+  },
+  "host": "calvin3oo-cse-341.herokuapp.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/todos/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/addTodo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "addTodo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "name"
+        },
+        "priorityLevel": {
+          "type": "string",
+          "example": "3"
+        },
+        "due": {
+          "type": "string",
+          "example": "5/21/2022"
+        },
+        "creator": {
+          "type": "string",
+          "example": "user1"
+        },
+        "responsible": {
+          "type": "string",
+          "example": "user1"
+        },
+        "status": {
+          "type": "string",
+          "example": "New"
+        },
+        "feed": {
+          "type": "array",
+          "example": [],
+          "items": {}
+        },
+        "description": {
+          "type": "string",
+          "example": "This is a new Todo"
+        }
+      },
+      "required": [
+        "name",
+        "priorityLevel",
+        "due",
+        "creator",
+        "responsible",
+        "status",
+        "feed",
+        "description"
+      ]
+    }
+  }
+}

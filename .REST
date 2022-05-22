@@ -1,0 +1,27 @@
+#For testing, Replace "calvin3oo-cse-341.herokuapp.com" with "localhost:5000"
+GET http://calvin3oo-cse-341.herokuapp.com/
+################################
+GET http://calvin3oo-cse-341.herokuapp.com/contacts/
+################################
+GET http://calvin3oo-cse-341.herokuapp.com/contacts/62807a1613732ff2d7e9ebce
+################################
+POST http://calvin3oo-cse-341.herokuapp.com/contacts/
+content-type: application/json
+
+{
+    "firstName": "test",
+    "lastName": "test",
+    "email": "test",
+    "favoriteColor": "test",
+    "birthday": "0000-00-00T07:00:00.000Z"
+}
+################################
+PUT http://calvin3oo-cse-341.herokuapp.com/contacts/6276fac8a8e9112bbf4748f2/
+content-type: application/json
+
+{
+    "lastName": "Olson"
+}
+################################
+DELETE http://calvin3oo-cse-341.herokuapp.com/contacts/6276fac8a8e9112bbf4748f2/
+################################
