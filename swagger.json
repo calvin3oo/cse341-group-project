@@ -5,19 +5,12 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": "calvin3oo-cse-341.herokuapp.com",
+  "host": "localhost:5000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
     "/todos/": {
       "get": {
         "description": "",

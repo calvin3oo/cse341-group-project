@@ -45,7 +45,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/todos', require('./routes/todos.js'));
 
 
-app.get('/', (req, res) => {
+/*app.get('/', (req, res) => {
     res.render('../views/index.ejs');
-});
+});*/
 

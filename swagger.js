@@ -5,8 +5,8 @@ const doc = {
     title: 'My API',
     description: 'Description',
   },
-  host: 'calvin3oo-cse341-w5.herokuapp.com',
-  schemes: ['https'],
+  host: 'calvin3oo-cse341-w5.herokuapp.com', //change this whenever on local or on live: calvin3oo-cse341-w5.herokuapp.com || localhost:5000
+  schemes: ['https'], //Change from local or live: https || http
   definitions: {
     addTodo:{
       $name: "name",

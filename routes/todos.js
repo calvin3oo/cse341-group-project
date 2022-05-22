@@ -21,11 +21,7 @@ router.post('/', async (req, res) => {
     } */
     const client = await mongo.connectToMongoDB();
     const col = client.db("cse341-w5").collection("todos");
-    var newDoc = {};
-
-    entrys.forEach(entry => {
-        newDoc[entry.name] = req.body[entry.name];
-    });
+    var newDoc = req.body;
 
     const result = await col.insertOne(newDoc);
 
