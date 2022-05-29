@@ -14,10 +14,18 @@ const doc = {
       $due: "5/21/2022",
       $creator: "user1",
       $responsible: "user1",
-      $status: "New", 
-      $feed: [],
+      $status: "New",
       $description: "This is a new Todo",
     },
+    editTodo:{
+      name: "name",
+      priorityLevel: "3",
+      due: "5/21/2022",
+      responsible: "user1",
+      status: "New", 
+      description: "This is a new Todo",
+      comment: "feed Entry",
+    }
   }
 };
 

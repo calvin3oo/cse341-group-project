@@ -39,6 +39,7 @@ app.listen(app.get("port"), () => {
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
 
+
 //ROUTES
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -48,4 +49,11 @@ app.use('/todos', require('./routes/todos.js'));
 /*app.get('/', (req, res) => {
     res.render('../views/index.ejs');
 });*/
+
+
+//Error Handling (after routes)
+app.use((err, req, res, next) => {
+	console.log(`BONK \n URL: ${req.originalUrl}\n ERROR: ${err.error || err.message}`);
+	res.status(400).send(err.error || err.message);
+});
 

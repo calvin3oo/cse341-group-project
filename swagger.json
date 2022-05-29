@@ -39,6 +39,48 @@
           }
         }
       }
+    },
+    "/todos/{docID}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "docID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/editTodo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "docID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -69,11 +111,6 @@
           "type": "string",
           "example": "New"
         },
-        "feed": {
-          "type": "array",
-          "example": [],
-          "items": {}
-        },
         "description": {
           "type": "string",
           "example": "This is a new Todo"
@@ -86,9 +123,41 @@
         "creator",
         "responsible",
         "status",
-        "feed",
         "description"
       ]
+    },
+    "editTodo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "name"
+        },
+        "priorityLevel": {
+          "type": "string",
+          "example": "3"
+        },
+        "due": {
+          "type": "string",
+          "example": "5/21/2022"
+        },
+        "responsible": {
+          "type": "string",
+          "example": "user1"
+        },
+        "status": {
+          "type": "string",
+          "example": "New"
+        },
+        "description": {
+          "type": "string",
+          "example": "This is a new Todo"
+        },
+        "comment": {
+          "type": "string",
+          "example": "feed Entry"
+        }
+      }
     }
   }
 }

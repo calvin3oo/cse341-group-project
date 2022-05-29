@@ -1,32 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const mongo = require('../controllers/mongo.js');
+const todoController = require('../controllers/todoController.js');
 const  ObjectId = require('mongodb').ObjectId;
 
-router.get('/', async (req, res) => {
-    const client = await mongo.connectToMongoDB();
-    const col = client.db("cse341-w5").collection("todos");
+router.get('/', todoController.getAllTodos);
 
-    const find = await col.find({}).toArray();
+router.post('/', todoController.addNewTodo);
 
-    res.send(find);
-    client.close();
-});
+router.put('/:docID', todoController.updateTodo);
 
-router.post('/', async (req, res) => {
-    /*  #swagger.parameters['obj'] = {
-            in: 'body',
-            description: 'body format',
-            schema: { $ref: '#/definitions/addTodo' }
-    } */
-    const client = await mongo.connectToMongoDB();
-    const col = client.db("cse341-w5").collection("todos");
-    var newDoc = req.body;
-
-    const result = await col.insertOne(newDoc);
-
-    res.send(result.insertedId);
-    client.close();
-});
+router.delete('/:docID', todoController.deleteTodo);
 
 module.exports = router;
