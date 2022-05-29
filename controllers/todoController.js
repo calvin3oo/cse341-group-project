@@ -1,8 +1,9 @@
 const mongo = require('./mongo.js');
 const {model:todoModel} = require('../models/todo.js');
+const  ObjectId = require('mongodb').ObjectId;
 
 const validateData = (data) => {
-    var newDoc;
+    var newDoc = {};
     Object.keys(data).forEach(entryItemKey => {
         if(!todoModel[entryItemKey]) throw new Error(`${entryItemKey} is not a valid entry`);
         if(!todoModel[entryItemKey].editable) throw new Error(`${entryItemKey} is not editable`);
@@ -72,7 +73,8 @@ module.exports.updateTodo = async (req, res, next) => {
         delete newData.feed;
 
         const update = {
-            $set: newData
+            $set: newData,
+            $push: {"feed": comments}
         };
 
         const response = await col.updateOne(filter, update).catch(err => {throw new Error('error updating todo');});

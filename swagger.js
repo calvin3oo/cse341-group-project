@@ -12,10 +12,10 @@ const doc = {
       $name: "name",
       $priorityLevel: "3",
       $due: "5/21/2022",
-      $creator: "user1",
       $responsible: "user1",
       $status: "New",
       $description: "This is a new Todo",
+      comment: "feed Entry",
     },
     editTodo:{
       name: "name",
@@ -37,6 +37,6 @@ const endpointsFiles = ['./server.js'];
    'endpointsFiles' only the root file where the route starts,
    such as index.js, app.js, routes.js, ... */
 
-swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
+swaggerAutogen(outputFile, endpointsFiles, doc)/*.then(() => {
     require('./server.js'); // Your project's root file
-});
+});*/

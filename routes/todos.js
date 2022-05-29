@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const todoController = require('../controllers/todoController.js');
-const  ObjectId = require('mongodb').ObjectId;
 
 router.get('/', todoController.getAllTodos);
 
