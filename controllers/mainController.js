@@ -26,3 +26,11 @@ module.exports.oauthcallback = async(req, res, next) => {
         res.render('index');
     }catch(err){next(err)}
 }
+
+
+module.exports.logout = async(req, res, next) => {
+    try{
+        req.session = null;
+        res.status(200).send();
+    }catch(err){next(err)}
+}

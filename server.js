@@ -12,6 +12,8 @@ var cookieSession = require('cookie-session');
 const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+//main controller
+const mainController = require('./controllers/mainController.js');
 
 //mongo connection
 // const mongo = require('./controllers/mongo.js');
@@ -49,23 +51,24 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }))
 
-// middleware to test if authenticated, not implimented
-function checkIfLoggedIn(req, res, next)  {
-    if (req.session.user) next()
-    else next('route')
-}
-
 //ROUTES
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/', require('./routes/mainRoutes.js'))
+//login stuff
+app.get('/auth', mainController.auth);
+app.get('/oauth-callback', mainController.oauthcallback);
+
+// middleware to test if authenticated
+app.use((req, res, next) => {
+    if (req.session?.code) next()
+    else res.redirect('/auth');
+});
+
+app.get('/', mainController.home);
+app.get('/logout', mainController.logout);
 
 app.use('/todos', require('./routes/todos.js'));
 
-
-/*app.get('/', (req, res) => {
-    res.render('../views/index.ejs');
-});*/
 
 
 //Error Handling (after routes)
