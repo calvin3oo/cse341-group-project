@@ -6,6 +6,8 @@ const express = require('express');
 const app = express();
 var cors = require('cors');
 const bodyParser = require("body-parser");
+//request session 
+var cookieSession = require('cookie-session');
 //Swagger documentation
 const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
@@ -39,9 +41,24 @@ app.listen(app.get("port"), () => {
 	console.log("Now listening for connection on port: " + app.get("port"));
 });
 
+app.use(cookieSession({
+    name: 'session',
+    secret: 'Ti6Y4mFqAYRlGfzz',
+  
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }))
+
+// middleware to test if authenticated, not implimented
+function checkIfLoggedIn(req, res, next)  {
+    if (req.session.user) next()
+    else next('route')
+}
 
 //ROUTES
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/', require('./routes/mainRoutes.js'))
 
 app.use('/todos', require('./routes/todos.js'));
 
@@ -53,7 +70,7 @@ app.use('/todos', require('./routes/todos.js'));
 
 //Error Handling (after routes)
 app.use((err, req, res, next) => {
-	console.log(`BONK \n URL: ${req.originalUrl}\n ERROR: ${err.error || err.message}`);
-	res.status(400).send(err.error || err.message);
+	console.log(`BONK \n URL: ${req.originalUrl}\n ERROR: ${err.error || err.message || err}`);
+	res.status(400).send(err.error || err.message || err);
 });
 
