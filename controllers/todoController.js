@@ -3,6 +3,7 @@ const {model:todoModel} = require('../models/todo.js');
 const  ObjectId = require('mongodb').ObjectId;
 
 const validateData = (data) => {
+    // #swagger.tags = ['Todo']
     var newDoc = {};
     Object.keys(data).forEach(entryItemKey => {
         if(!todoModel[entryItemKey]) throw new Error(`${entryItemKey} is not a valid entry`);
@@ -20,6 +21,7 @@ const validateData = (data) => {
 
 
 module.exports.getAllTodos = async (req, res, next) => {
+    // #swagger.tags = ['Todo']
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
@@ -38,6 +40,7 @@ module.exports.addNewTodo = async (req, res, next) => {
             description: 'body format',
             schema: { $ref: '#/definitions/addTodo' }
     } */
+    // #swagger.tags = ['Todo']
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
@@ -61,6 +64,7 @@ module.exports.updateTodo = async (req, res, next) => {
             description: 'body format',
             schema: { $ref: '#/definitions/editTodo' }
     } */
+    // #swagger.tags = ['Todo']
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
@@ -87,6 +91,7 @@ module.exports.updateTodo = async (req, res, next) => {
 }
 
 module.exports.deleteTodo = async (req, res, next) => {
+    // #swagger.tags = ['Todo']
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});

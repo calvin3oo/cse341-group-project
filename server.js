@@ -55,19 +55,21 @@ app.use(cookieSession({
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //login stuff
+//Link for changing auth0 link: https://github.com/settings/applications/1921552
 app.get('/auth', mainController.auth);
 app.get('/oauth-callback', mainController.oauthcallback);
 
 // middleware to test if authenticated
 app.use((req, res, next) => {
-    if (req.session?.code) next()
-    else res.redirect('/auth');
+    if (req.session?.loggedIn) next();
+    else res.status(400).send();
 });
 
-app.get('/', mainController.home);
-app.get('/logout', mainController.logout);
+//app.get('/', mainController.home);
+//app.get('/logout', mainController.logout);
 
 app.use('/todos', require('./routes/todos.js'));
+app.use('/user', require('./routes/user.js'));
 
 
 

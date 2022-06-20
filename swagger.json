@@ -10,9 +10,45 @@
   "schemes": [
     "https"
   ],
+  "securityDefinitions": {
+    "oAuth2": {
+      "type": "oauth2",
+      "authorizationUrl": "https://calvin3oo-cse341-w5.herokuapp.com/auth",
+      "flow": "authorizationCode"
+    }
+  },
   "paths": {
+    "/auth": {
+      "get": {
+        "tags": [
+          "Main"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/oauth-callback": {
+      "get": {
+        "tags": [
+          "Main"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/todos/": {
       "get": {
+        "tags": [
+          "Todo"
+        ],
         "description": "",
         "parameters": [],
         "responses": {
@@ -22,6 +58,9 @@
         }
       },
       "post": {
+        "tags": [
+          "Todo"
+        ],
         "description": "",
         "parameters": [
           {
@@ -42,6 +81,9 @@
     },
     "/todos/{docID}": {
       "put": {
+        "tags": [
+          "Todo"
+        ],
         "description": "",
         "parameters": [
           {
@@ -66,6 +108,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Todo"
+        ],
         "description": "",
         "parameters": [
           {
@@ -81,9 +126,140 @@
           }
         }
       }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/addUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/editUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "addUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "id"
+        },
+        "name": {
+          "type": "string",
+          "example": "name"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ]
+    },
+    "editUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "name"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "addTodo": {
       "type": "object",
       "properties": {

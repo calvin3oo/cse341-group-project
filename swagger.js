@@ -1,13 +1,33 @@
 const swaggerAutogen = require('swagger-autogen')();
+require('dotenv').config();
+
+const local = false;
+
+var host = local? 'localhost:5000': 'calvin3oo-cse341-w5.herokuapp.com';
+var method = local? 'http':'https';
 
 const doc = {
+  securityDefinitions: {
+    oAuth2: {
+      type: 'oauth2',
+      authorizationUrl: `${method}://${host}/auth`,
+      flow: 'authorizationCode'
+    }
+  },
   info: {
     title: 'My API',
     description: 'Description',
   },
-  host: 'calvin3oo-cse341-w5.herokuapp.com', //change this whenever on local or on live: calvin3oo-cse341-w5.herokuapp.com || localhost:5000
-  schemes: ['https'], //Change from local or live: https || http
+  host: host,
+  schemes: [method], 
   definitions: {
+    addUser:{ 
+      $id: "id",
+      $name: "name",
+    },
+    editUser:{
+      $name:"name",
+    },
     addTodo:{
       $name: "name",
       $priorityLevel: "3",
