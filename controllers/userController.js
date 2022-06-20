@@ -73,7 +73,7 @@ module.exports.updateUser = async (req, res, next) => {
         const filter = { id : req.params.userId};
 
         //validate data
-        if(req.body.length!==1 || !req.body.name) throw new Error('only the name is editable');
+        if(Object.keys(req.body).length!==1 || !req.body.name) throw new Error('only the name is editable');
 
         var newData = req.body;
 
