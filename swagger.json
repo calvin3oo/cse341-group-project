@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API",
-    "description": "Description",
+    "title": "TODOS Api Documentation",
+    "description": "The api documentation for the TODOS group for CSE 341",
     "version": "1.0.0"
   },
   "host": "calvin3oo-cse341-w5.herokuapp.com",
@@ -18,22 +18,22 @@
     }
   },
   "paths": {
-    "/auth": {
+    "auth/": {
       "get": {
         "tags": [
-          "Main"
+          "Auth"
         ],
-        "description": "",
+        "description": "The path that redirects to a url for   logging in",
         "parameters": [],
         "responses": {}
       }
     },
-    "/oauth-callback": {
+    "auth/oauth-callback": {
       "get": {
         "tags": [
-          "Main"
+          "Auth"
         ],
-        "description": "",
+        "description": "The path that oauth calls back to with the code for getting a users token",
         "parameters": [
           {
             "name": "code",
@@ -44,16 +44,39 @@
         "responses": {}
       }
     },
-    "/todos/": {
+    "auth/logout": {
       "get": {
         "tags": [
-          "Todo"
+          "Auth"
         ],
-        "description": "",
+        "description": "The path that deletes the session",
         "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/todo/": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "description": "get all todos",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sends back array of all todos",
+            "schema": {
+              "$ref": "#/definitions/todosArray"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       },
@@ -61,7 +84,13 @@
         "tags": [
           "Todo"
         ],
-        "description": "",
+        "description": "create a new todos",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "obj",
@@ -74,23 +103,127 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back created todos data",
+            "schema": {
+              "$ref": "#/definitions/todo"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       }
     },
-    "/todos/{docID}": {
+    "/todo/{groupId}": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "description": "get all todos that belong to a group",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Group ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back array of all todos in the specific group",
+            "schema": {
+              "$ref": "#/definitions/todosArray"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/todo/{userId}": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "description": "get all todos that belong to a user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The User ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back array of all todos where the primary responsible is the user",
+            "schema": {
+              "$ref": "#/definitions/todosArray"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/todo/{todoId}": {
+      "get": {
+        "tags": [
+          "Todo"
+        ],
+        "description": "get a specific todo by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The todo ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back todo data",
+            "schema": {
+              "$ref": "#/definitions/todo"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
       "put": {
         "tags": [
           "Todo"
         ],
-        "description": "",
+        "description": "update a todo",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "name": "docID",
+            "name": "todoId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The todo ID"
           },
           {
             "name": "obj",
@@ -103,7 +236,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back updated todos data",
+            "schema": {
+              "$ref": "#/definitions/todo"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       },
@@ -111,45 +250,83 @@
         "tags": [
           "Todo"
         ],
-        "description": "",
+        "description": "delete a todo",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
-            "name": "docID",
+            "name": "todoId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The todo ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back deleted todos data",
+            "schema": {
+              "$ref": "#/definitions/todo"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/user/{groupId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "get all the Users",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The ID of the group to get all users from, Required"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back array of users",
+            "schema": {
+              "$ref": "#/definitions/usersArray"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       }
     },
     "/user/": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "post": {
         "tags": [
-          "Users"
+          "User"
         ],
-        "description": "",
+        "description": "add a new User",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "obj",
             "in": "body",
-            "description": "body format",
+            "description": "Schema to add a new user",
             "schema": {
               "$ref": "#/definitions/addUser"
             }
@@ -157,7 +334,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back new users data",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       }
@@ -165,34 +348,51 @@
     "/user/{userId}": {
       "get": {
         "tags": [
-          "Users"
+          "User"
         ],
-        "description": "",
+        "description": "get a User by their Id",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The ID of the user to get"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back users data",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       },
       "put": {
         "tags": [
-          "Users"
+          "User"
         ],
-        "description": "",
+        "description": "update a User",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The ID of the user to update"
           },
           {
             "name": "obj",
@@ -205,46 +405,545 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back updated users data",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       },
       "delete": {
         "tags": [
-          "Users"
+          "User"
         ],
-        "description": "",
+        "description": "delete a User",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The ID of the user to delete"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Sends back deleted users data",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/group/": {
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "description": "get All Groups",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sends back array of groups",
+            "schema": {
+              "$ref": "#/definitions/groupsArray"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Group"
+        ],
+        "description": "add a new Group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/addGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back added groups data",
+            "schema": {
+              "$ref": "#/definitions/group"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/group/{groupId}": {
+      "get": {
+        "tags": [
+          "Group"
+        ],
+        "description": "get Group by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Group ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back group data",
+            "schema": {
+              "$ref": "#/definitions/group"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Group"
+        ],
+        "description": "update a Group",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Group ID"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/updateGroup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back updated groups data",
+            "schema": {
+              "$ref": "#/definitions/group"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Group"
+        ],
+        "description": "delete a Group",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Group ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back deleted groups data",
+            "schema": {
+              "$ref": "#/definitions/group"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/company/": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "description": "get All Companies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sends back array of companies",
+            "schema": {
+              "$ref": "#/definitions/companiesArray"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Company"
+        ],
+        "description": "add a new Company",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/addCompany"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back the created companies data",
+            "schema": {
+              "$ref": "#/definitions/company"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/company/{companyId}": {
+      "get": {
+        "tags": [
+          "Company"
+        ],
+        "description": "get Company by Id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Company ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back company data",
+            "schema": {
+              "$ref": "#/definitions/company"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Company"
+        ],
+        "description": "update a Company",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Company ID"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "body format",
+            "schema": {
+              "$ref": "#/definitions/updateCompany"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends back the updated companies data",
+            "schema": {
+              "$ref": "#/definitions/company"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Company"
+        ],
+        "description": "delete a Company",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "companyId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The Company ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucessfully deleted a company, sends back data of the deleted company",
+            "schema": {
+              "$ref": "#/definitions/company"
+            }
+          },
+          "400": {
+            "description": "Invalid Request"
           }
         }
       }
     }
   },
   "definitions": {
+    "companiesArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "12345"
+          },
+          "name": {
+            "type": "string",
+            "example": "New Company"
+          }
+        }
+      }
+    },
+    "company": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "name": {
+          "type": "string",
+          "example": "New Company"
+        }
+      }
+    },
+    "updateCompany": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "New Company"
+        }
+      }
+    },
+    "addCompany": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "New Company"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "groupsArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "12345"
+          },
+          "name": {
+            "type": "string",
+            "example": "New Group"
+          },
+          "members": {
+            "type": "array",
+            "example": [
+              "123456789",
+              "123456788"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "12345"
+        },
+        "name": {
+          "type": "string",
+          "example": "New Group"
+        },
+        "members": {
+          "type": "array",
+          "example": [
+            "123456789",
+            "123456788"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "updateGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "New Group"
+        },
+        "userIDsToAdd": {
+          "type": "array",
+          "example": [
+            "12345"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "userIDsToRemove": {
+          "type": "array",
+          "example": [
+            "12345"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "addGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "New Group"
+        },
+        "userIDs": {
+          "type": "array",
+          "example": [
+            "12345"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "usersArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "123456"
+          },
+          "name": {
+            "type": "string",
+            "example": "billy bob"
+          }
+        }
+      }
+    },
+    "user": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "123456"
+        },
+        "name": {
+          "type": "string",
+          "example": "billy bob"
+        }
+      }
+    },
     "addUser": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "example": "id"
-        },
         "name": {
           "type": "string",
           "example": "name"
         }
       },
       "required": [
-        "id",
         "name"
       ]
     },
@@ -259,6 +958,109 @@
       "required": [
         "name"
       ]
+    },
+    "todosArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "name": {
+            "type": "string",
+            "example": "first Todo"
+          },
+          "priorityLevel": {
+            "type": "string",
+            "example": "3"
+          },
+          "due": {
+            "type": "string",
+            "example": "5/21/2022"
+          },
+          "responsible": {
+            "type": "string",
+            "example": "user1"
+          },
+          "status": {
+            "type": "string",
+            "example": "New"
+          },
+          "description": {
+            "type": "string",
+            "example": "This is a Todo"
+          },
+          "createdDate": {
+            "type": "number",
+            "example": 1656201934129
+          },
+          "feed": {
+            "type": "array",
+            "example": [
+              "feed entry 1",
+              "feed entry 2",
+              "feed entry 3",
+              "feed entry 4",
+              "feed entry 5"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "todo": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "1234567890"
+        },
+        "name": {
+          "type": "string",
+          "example": "name"
+        },
+        "priorityLevel": {
+          "type": "string",
+          "example": "3"
+        },
+        "due": {
+          "type": "string",
+          "example": "5/21/2022"
+        },
+        "responsible": {
+          "type": "string",
+          "example": "user1"
+        },
+        "status": {
+          "type": "string",
+          "example": "New"
+        },
+        "description": {
+          "type": "string",
+          "example": "This is a new Todo"
+        },
+        "createdDate": {
+          "type": "number",
+          "example": 1656201934129
+        },
+        "feed": {
+          "type": "array",
+          "example": [
+            "feed entry 1",
+            "feed entry 2",
+            "feed entry 3",
+            "feed entry 4",
+            "feed entry 5"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "addTodo": {
       "type": "object",

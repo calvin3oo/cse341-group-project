@@ -3,7 +3,6 @@ const {model:todoModel} = require('../models/todo.js');
 const  ObjectId = require('mongodb').ObjectId;
 
 const validateData = (data) => {
-    // #swagger.tags = ['Todo']
     var newDoc = {};
     Object.keys(data).forEach(entryItemKey => {
         if(!todoModel[entryItemKey]) throw new Error(`${entryItemKey} is not a valid entry`);
@@ -21,7 +20,14 @@ const validateData = (data) => {
 
 
 module.exports.getAllTodos = async (req, res, next) => {
+    // #swagger.description = 'get all todos'
     // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    /* #swagger.responses[200] = {
+      description: 'Sends back array of all todos',
+      schema: { $ref: '#/definitions/todosArray' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
@@ -33,14 +39,55 @@ module.exports.getAllTodos = async (req, res, next) => {
     } catch (err) {next(err)}
     client.close();
 }
+module.exports.getTodosByGroup = async (req, res, next) => {
+    // #swagger.description = 'get all todos that belong to a group'
+    // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    // #swagger.parameters['groupId'] = { description: 'The Group ID' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back array of all todos in the specific group',
+      schema: { $ref: '#/definitions/todosArray' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
+}
+module.exports.getTodosByUser = async (req, res, next) => {
+    // #swagger.description = 'get all todos that belong to a user'
+    // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    // #swagger.parameters['userId'] = { description: 'The User ID' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back array of all todos where the primary responsible is the user',
+      schema: { $ref: '#/definitions/todosArray' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'}
+}
+module.exports.getTodoById = async (req, res, next) => {
+    // #swagger.description = 'get a specific todo by id'
+    // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    // #swagger.parameters['todoId'] = { description: 'The todo ID' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back todo data',
+      schema: { $ref: '#/definitions/todo' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'}
+}
 
 module.exports.addNewTodo = async (req, res, next) => {
+    // #swagger.description = 'create a new todos'
     /*  #swagger.parameters['obj'] = {
             in: 'body',
             description: 'body format',
             schema: { $ref: '#/definitions/addTodo' }
     } */
     // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    // #swagger.consumes = ['application/json']
+    /* #swagger.responses[200] = {
+      description: 'Sends back created todos data',
+      schema: { $ref: '#/definitions/todo' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'}
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
@@ -59,18 +106,27 @@ module.exports.addNewTodo = async (req, res, next) => {
 }
 
 module.exports.updateTodo = async (req, res, next) => {
+    // #swagger.description = 'update a todo'
     /*  #swagger.parameters['obj'] = {
             in: 'body',
             description: 'body format',
             schema: { $ref: '#/definitions/editTodo' }
     } */
     // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    // #swagger.consumes = ['application/json']
+    // #swagger.parameters['todoId'] = { description: 'The todo ID' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back updated todos data',
+      schema: { $ref: '#/definitions/todo' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'}
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
         const col = client.db("cse341-w5").collection("todos");
 
-        const filter = { _id : ObjectId(req.params.docID)};
+        const filter = { _id : ObjectId(req.params.todoId)};
 
         var newData = validateData(req.body);
         const comments = newData.feed[0];
@@ -83,21 +139,27 @@ module.exports.updateTodo = async (req, res, next) => {
 
         const response = await col.updateOne(filter, update).catch(err => {throw new Error('error updating todo');});
 
-        //TODO: now that we have the ticket, send another update to add to the feed.
-
         res.status(200).send(response);
     } catch (err) {next(err)}
     client.close();
 }
 
 module.exports.deleteTodo = async (req, res, next) => {
+    // #swagger.description = 'delete a todo'
     // #swagger.tags = ['Todo']
+    // #swagger.produces = ['application/json']
+    // #swagger.parameters['todoId'] = { description: 'The todo ID' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back deleted todos data',
+      schema: { $ref: '#/definitions/todo' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'}
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
         const col = client.db("cse341-w5").collection("todos");
     
-        const filter = {_id : ObjectId(req.params.docID)};
+        const filter = {_id : ObjectId(req.params.todoId)};
     
         const response = await col.deleteOne(filter).catch(err => {throw new Error('error deleting todo');});
     

@@ -3,22 +3,22 @@ const  ObjectId = require('mongodb').ObjectId;
 
 //needs name and id
 const validateData = (data) => {
-    var hasId = false;
-    var hasName = false;
-    //needs only id and username
-    Object.keys(data).forEach(key => {
-        if(key!=='id' && key!=='name') throw new Error('invalid entry key');
-        else if(key==='id') hasId = true;
-        else if(key==='name') hasName = true;
-    })
-
-    if(hasId && hasName) return data;
-    else throw new Error('not enough entries, need id and username');
+    if(Object.keys(data).length===1 && Object.keys(data)[0]==="name") return data;
+    else throw new Error('invalid body');
 
 }
 
 module.exports.getAllUsers = async (req, res, next) => {
-    // #swagger.tags = ['Users']
+    // #swagger.description = 'get all the Users'
+    // #swagger.tags = ['User']
+    // #swagger.produces = ['application/json']
+    // #swagger.consumes = ['application/json']
+    // #swagger.parameters['groupId'] = { description: 'The ID of the group to get all users from, Required' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back array of users',
+      schema: { $ref: '#/definitions/usersArray' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
@@ -32,22 +32,26 @@ module.exports.getAllUsers = async (req, res, next) => {
 }
 
 module.exports.addNewUser = async (req, res, next) => {
+    // #swagger.description = 'add a new User'
     /*  #swagger.parameters['obj'] = {
             in: 'body',
-            description: 'body format',
+            description: 'Schema to add a new user',
             schema: { $ref: '#/definitions/addUser' }
     } */
-    // #swagger.tags = ['Users']
+    // #swagger.tags = ['User']
+    // #swagger.produces = ['application/json']
+    // #swagger.consumes = ['application/json']
+    /* #swagger.responses[200] = {
+      description: 'Sends back new users data',
+      schema: { $ref: '#/definitions/user' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
         const col = client.db("cse341-w5").collection("users");
 
         var newUser = validateData(req.body);
-
-        const filter = { id : req.body.id};
-        const find = await col.find(filter).toArray().catch(err => {throw new Error('error getting user');});
-        if(find.length !== 0) throw new Error('User with id already exists');
 
         newUser.createdDate = Date.now();
 
@@ -59,18 +63,27 @@ module.exports.addNewUser = async (req, res, next) => {
 }
 
 module.exports.updateUser = async (req, res, next) => {
+    // #swagger.description = 'update a User'
     /*  #swagger.parameters['obj'] = {
             in: 'body',
             description: 'body format',
             schema: { $ref: '#/definitions/editUser' }
     } */
-    // #swagger.tags = ['Users']
+    // #swagger.tags = ['User']
+    // #swagger.produces = ['application/json']
+    // #swagger.consumes = ['application/json']
+    // #swagger.parameters['userId'] = { description: 'The ID of the user to update' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back updated users data',
+      schema: { $ref: '#/definitions/user' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
         const col = client.db("cse341-w5").collection("users");
 
-        const filter = { id : req.params.userId};
+        const filter = { _id : ObjectId(req.params.userId)};
 
         //validate data
         if(Object.keys(req.body).length!==1 || !req.body.name) throw new Error('only the name is editable');
@@ -89,13 +102,21 @@ module.exports.updateUser = async (req, res, next) => {
 }
 
 module.exports.deleteUser = async (req, res, next) => {
-    // #swagger.tags = ['Users']
+    // #swagger.description = 'delete a User'
+    // #swagger.tags = ['User']
+    // #swagger.produces = ['application/json']
+    // #swagger.parameters['userId'] = { description: 'The ID of the user to delete' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back deleted users data',
+      schema: { $ref: '#/definitions/user' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
         const col = client.db("cse341-w5").collection("users");
     
-        const filter = {id : req.params.userId};
+        const filter = {_id : ObjectId(req.params.userId)};
     
         const response = await col.deleteOne(filter).catch(err => {throw new Error('error deleting user');});
     
@@ -105,13 +126,21 @@ module.exports.deleteUser = async (req, res, next) => {
 }
 
 module.exports.getUserById = async (req, res, next) => {
-    // #swagger.tags = ['Users']
+    // #swagger.description = 'get a User by their Id'
+    // #swagger.tags = ['User']
+    // #swagger.produces = ['application/json']
+    // #swagger.parameters['userId'] = { description: 'The ID of the user to get' }
+    /* #swagger.responses[200] = {
+      description: 'Sends back users data',
+      schema: { $ref: '#/definitions/user' }
+    } */
+    // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
         const col = client.db("cse341-w5").collection("users");
     
-        const filter = {id : req.params.userId};
+        const filter = {_id : ObjectId(req.params.userId)};
 
         const find = await col.find(filter).toArray().catch(err => {throw new Error('error getting user');});
     

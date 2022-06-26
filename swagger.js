@@ -15,18 +15,94 @@ const doc = {
     }
   },
   info: {
-    title: 'My API',
-    description: 'Description',
+    title: 'TODOS Api Documentation',
+    description: 'The api documentation for the TODOS group for CSE 341',
   },
   host: host,
   schemes: [method], 
   definitions: {
+    companiesArray:[
+      { 
+        _id:"12345",
+        name:"New Company"
+      },
+    ],
+    company:{
+      _id:"12345",
+      name:"New Company"
+    },
+    updateCompany : {
+      name:"New Company",
+    },
+    addCompany : {
+      $name:"New Company",
+    },
+    groupsArray:[
+      {
+        _id:"12345",
+        name:"New Group",
+        members:[
+          "123456789",
+          "123456788"
+        ]
+      },
+    ],
+    group:{
+      _id:"12345",
+      name:"New Group",
+      members:[
+        "123456789",
+        "123456788"
+      ]
+    },
+    updateGroup : {
+      name:"New Group",
+      userIDsToAdd:["12345"],
+      userIDsToRemove:["12345"],
+    },
+    addGroup : {
+      $name:"New Group",
+      userIDs:["12345"]
+    },
+    usersArray:[
+      {
+        _id:"123456",
+        name:"billy bob"
+      },
+    ],
+    user:{
+      _id:"123456",
+      name:"billy bob"
+    },
     addUser:{ 
-      $id: "id",
       $name: "name",
     },
     editUser:{
       $name:"name",
+    },
+    todosArray:[
+      {
+        _id:"1234567890",
+        name: "first Todo",
+        priorityLevel: "3",
+        due: "5/21/2022",
+        responsible: "user1",
+        status: "New",
+        description: "This is a Todo",
+        createdDate:1656201934129,
+        feed:["feed entry 1", "feed entry 2", "feed entry 3", "feed entry 4", "feed entry 5"],
+      },
+    ],
+    todo:{
+      _id:"1234567890",
+      name: "name",
+      priorityLevel: "3",
+      due: "5/21/2022",
+      responsible: "user1",
+      status: "New",
+      description: "This is a new Todo",
+      createdDate:1656201934129,
+      feed:["feed entry 1", "feed entry 2", "feed entry 3", "feed entry 4", "feed entry 5"],
     },
     addTodo:{
       $name: "name",
