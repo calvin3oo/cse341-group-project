@@ -1,5 +1,5 @@
 #For testing, Replace "calvin3oo-cse-341.herokuapp.com" with "localhost:5000"
-GET http://calvin3oo-cse-341.herokuapp.com/
+GET http://cse341-group-project.herokuapp.com/
 ################################
 GET http://calvin3oo-cse-341.herokuapp.com/contacts/
 ################################

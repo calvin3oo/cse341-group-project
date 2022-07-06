@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const local = false;
 
-var host = local? 'localhost:5000': 'calvin3oo-cse341-w5.herokuapp.com';
+var host = local? 'localhost:5000': 'cse341-group-project.herokuapp.com/';
 var method = local? 'http':'https';
 
 const doc = {
