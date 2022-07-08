@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 module.exports.auth = async(req, res, next) => {
     // #swagger.tags = ['Auth']
