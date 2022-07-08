@@ -55,7 +55,7 @@ app.use(cookieSession({
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //login stuff
-app.use('auth', require('./routes/auth.js'));
+app.use('/auth', require('./routes/auth.js'));
 
 // middleware to test if authenticated
 app.use((req, res, next) => {

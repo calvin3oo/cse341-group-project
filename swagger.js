@@ -10,7 +10,7 @@ const doc = {
   securityDefinitions: {
     oAuth2: {
       type: 'oauth2',
-      authorizationUrl: `${method}://${host}/auth`,
+      authorizationUrl: `${method}://${host}/auth/`,
       flow: 'authorizationCode'
     }
   },

@@ -13,12 +13,12 @@
   "securityDefinitions": {
     "oAuth2": {
       "type": "oauth2",
-      "authorizationUrl": "https://calvin3oo-cse341-group-project.herokuapp.com/auth",
+      "authorizationUrl": "https://cse341-group-project.herokuapp.com/auth/",
       "flow": "authorizationCode"
     }
   },
   "paths": {
-    "auth/": {
+    "/auth/": {
       "get": {
         "tags": [
           "Auth"
@@ -28,7 +28,7 @@
         "responses": {}
       }
     },
-    "auth/oauth-callback": {
+    "/auth/oauth-callback": {
       "get": {
         "tags": [
           "Auth"
@@ -44,7 +44,7 @@
         "responses": {}
       }
     },
-    "auth/logout": {
+    "/auth/logout": {
       "get": {
         "tags": [
           "Auth"
