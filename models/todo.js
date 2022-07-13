@@ -1,60 +1,62 @@
-
+const mongoose = require('mongoose');
 
 //Work in Progress:
-module.exports.model = {
-    "name": {
-        type: "string",
+const todo = new mongoose.Schema({
+    name: {
+        type: String,
         required: true,
         editable: true,
     },
-    "priorityLevel": {
-        type: "number",
+    priorityLevel: {
+        type: Number,
         required: true,
         editable: true,
     },
-    "due": {
-        type: "string",
+    due: {
+        type: String,
         required: true,
         editable: true,
     },
-    "createdDate": {
-        type: "string",
+    createdDate: {
+        type: Date,
         required: false,
         editable: false,
     },
-    "creator": {
-        type: "string",
+    creator: {
+        type: String,
         required: false,
         editable: false,
     },
-    "responsible": {
-        type: "string",
+    responsible: {
+        type: String,
         required: true,
         editable: true,
     },
-    "status": {
-        type: "string",
+    status: {
+        type: String,
         required: true,
         editable: true,
     },
-    "feedEntry": {
-        type: "string",
+    feedEntry: {
+        type: String,
         required: false,
         editable: false,
     },
-    "comment": {
-        type: "string",
+    comment: {
+        type: String,
         required: false,
         editable: true,
     },
-    "feed": {
-        type: "array",
+    feed: {
+        type: Array,
         required: false,
         editable: false,
     },
-    "description": {
-        type: "string",
+    description: {
+        type: String,
         required: true,
         editable: true,
     },
-};
+});
+
+module.exports = Todo = mongoose.model('todo', todo);

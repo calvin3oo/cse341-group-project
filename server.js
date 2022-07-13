@@ -1,5 +1,6 @@
 //allows to use environment variables in .env file
-require('dotenv').config()
+require('dotenv').config();
+
 
 // express framework
 const express = require('express');
@@ -14,10 +15,13 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 //main controller
 const mainController = require('./controllers/mainController.js');
+const connectToMongoDB = require('./controllers/mongo');
 
 //mongo connection
 // const mongo = require('./controllers/mongo.js');
 // mongo.connectToMongoDB().catch(console.error);
+
+connectToMongoDB();
 
 
 app.set('view engine', 'ejs'); //using ejs
@@ -30,7 +34,7 @@ app.use(express.static('.'));
 //make request bodies into json 
 app
     .use(bodyParser.json())
-    .use(bodyParser.urlencoded({extended: true}))
+    .use(bodyParser.urlencoded({ extended: true }))
     //cors allowing from requsets from react app
     /*.use((req,res,next) => {
         res.setHeader('Access-Control-Allow-Origin','*');
@@ -38,18 +42,18 @@ app
     })*/;
 
 // Listen for requests
-app.set("port", process.env.PORT ); 
+app.set("port", 3000);
 app.listen(app.get("port"), () => {
-	console.log("Now listening for connection on port: " + app.get("port"));
+    console.log("Now listening for connection on port: " + app.get("port"));
 });
 
 app.use(cookieSession({
     name: 'session',
     secret: 'Ti6Y4mFqAYRlGfzz',
-  
+
     // Cookie Options
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }))
+}))
 
 //ROUTES
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -74,7 +78,7 @@ app.use('/company', require('./routes/company.js'));
 
 //Error Handling (after routes)
 app.use((err, req, res, next) => {
-	console.log(`BONK \n URL: ${req.originalUrl}\n ERROR: ${err.error || err.message || err}`);
-	res.status(400).send(err.error || err.message || err);
+    console.log(`BONK \n URL: ${req.originalUrl}\n ERROR: ${err.error || err.message || err}`);
+    res.status(400).send(err.error || err.message || err);
 });
 
