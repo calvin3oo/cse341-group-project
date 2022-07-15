@@ -30,6 +30,7 @@ module.exports.getAllTodos = async (req, res, next) => {
     // #swagger.responses[400] = { description: 'Invalid Request'} 
     var client;
     try {
+        //make connection to mongodb
         client = await mongo.connectToMongoDB().catch(err => { throw new Error('error connecting to MongoDB'); });
         const col = client.db("cse341-w5").collection("todos");
 
@@ -38,28 +39,6 @@ module.exports.getAllTodos = async (req, res, next) => {
         res.send(find);
     } catch (err) { next(err) }
     client.close();
-}
-module.exports.getTodosByGroup = async (req, res, next) => {
-    // #swagger.description = 'get all todos that belong to a group'
-    // #swagger.tags = ['Todo']
-    // #swagger.produces = ['application/json']
-    // #swagger.parameters['groupId'] = { description: 'The Group ID' }
-    /* #swagger.responses[200] = {
-      description: 'Sends back array of all todos in the specific group',
-      schema: { $ref: '#/definitions/todosArray' }
-    } */
-    // #swagger.responses[400] = { description: 'Invalid Request'} 
-}
-module.exports.getTodosByUser = async (req, res, next) => {
-    // #swagger.description = 'get all todos that belong to a user'
-    // #swagger.tags = ['Todo']
-    // #swagger.produces = ['application/json']
-    // #swagger.parameters['userId'] = { description: 'The User ID' }
-    /* #swagger.responses[200] = {
-      description: 'Sends back array of all todos where the primary responsible is the user',
-      schema: { $ref: '#/definitions/todosArray' }
-    } */
-    // #swagger.responses[400] = { description: 'Invalid Request'}
 }
 module.exports.getTodoById = async (req, res, next) => {
     // #swagger.description = 'get a specific todo by id'
@@ -71,6 +50,20 @@ module.exports.getTodoById = async (req, res, next) => {
       schema: { $ref: '#/definitions/todo' }
     } */
     // #swagger.responses[400] = { description: 'Invalid Request'}
+    var client;
+    try {
+        //make mongodb connection
+        client = await mongo.connectToMongoDB().catch(err => { throw new Error('error connecting to MongoDB'); });
+        const col = client.db("cse341-w5").collection("todos");
+
+        //define filter
+        const filter = { _id: ObjectId(req.params.todoId) };
+
+        const response = await col.find(filter).catch(err => { throw new Error('error getting todo by ID'); });
+
+        res.status(200).send(response);
+    } catch (err) { next(err) }
+    client.close();
 }
 
 module.exports.addNewTodo = async (req, res, next) => {
@@ -156,9 +149,11 @@ module.exports.deleteTodo = async (req, res, next) => {
     // #swagger.responses[400] = { description: 'Invalid Request'}
     var client;
     try {
+        //make mongodb connection
         client = await mongo.connectToMongoDB().catch(err => { throw new Error('error connecting to MongoDB'); });
         const col = client.db("cse341-w5").collection("todos");
 
+        //define filter
         const filter = { _id: ObjectId(req.params.todoId) };
 
         const response = await col.deleteOne(filter).catch(err => { throw new Error('error deleting todo'); });
