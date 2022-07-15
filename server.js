@@ -13,15 +13,6 @@ var cookieSession = require('cookie-session');
 const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-// const mainController = require('./controllers/mainController.js');
-const mongo = require('./controllers/mongo');
-
-//mongo connection
-// const mongo = require('./controllers/mongo.js');
-// mongo.connectToMongoDB().catch(console.error);
-
-mongo.connectToMongoDB();
-
 
 app.set('view engine', 'ejs'); //using ejs
 app.use(cors());

@@ -4,16 +4,16 @@ const ObjectId = require('mongodb').ObjectId;
 
 const validateData = (data) => {
     var newDoc = {};
-    Object.keys(data).forEach(entryItemKey => {
-        if (!todoModel[entryItemKey]) throw new Error(`${entryItemKey} is not a valid entry`);
-        if (!todoModel[entryItemKey].editable) throw new Error(`${entryItemKey} is not editable`);
+    Object.keys(data).forEach(key => {
+        if (!todoModel[key]) throw new Error(`${key} is not a valid entry`);
+        if (!todoModel[key].editable) throw new Error(`${key} is not editable`);
 
-        if (entryItemKey === 'comment') {
-            newDoc.feed = new Array(data[entryItemKey]);
+        if (key === 'comment') {
+            newDoc.feed = new Array(data[key]);
             return;
         }
 
-        newDoc[entryItemKey] = data[entryItemKey];
+        newDoc[key] = data[key];
     });
     return newDoc;
 }
