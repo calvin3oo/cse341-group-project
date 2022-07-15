@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+const mongo = require('./mongo.js');
 
 module.exports.auth = async(req, res, next) => {
     // #swagger.tags = ['Auth']
@@ -49,8 +50,7 @@ module.exports.oauthcallback = async(req, res, next) => {
         await col.insertOne(req.session.user).catch(err => {throw new Error('error adding user to MongoDB');});
         client.close();
 
-        console.dir(req.session);
-        res.redirect('/');
+        //console.dir(req.session);
     }catch(err){next(err)}
 }
 

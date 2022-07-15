@@ -1,9 +1,9 @@
 const swaggerAutogen = require('swagger-autogen')();
 require('dotenv').config();
 
-const local = false;
+const local = true;
 
-var host = local? 'localhost:5000': 'cse341-group-project.herokuapp.com';
+var host = local? 'localhost:3000': 'cse341-group-project.herokuapp.com';
 var method = local? 'http':'https';
 
 const doc = {

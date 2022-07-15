@@ -13,15 +13,14 @@ var cookieSession = require('cookie-session');
 const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-//main controller
-const mainController = require('./controllers/mainController.js');
-const connectToMongoDB = require('./controllers/mongo');
+// const mainController = require('./controllers/mainController.js');
+const mongo = require('./controllers/mongo');
 
 //mongo connection
 // const mongo = require('./controllers/mongo.js');
 // mongo.connectToMongoDB().catch(console.error);
 
-connectToMongoDB();
+mongo.connectToMongoDB();
 
 
 app.set('view engine', 'ejs'); //using ejs
@@ -36,13 +35,13 @@ app
     .use(bodyParser.json())
     .use(bodyParser.urlencoded({ extended: true }))
     //cors allowing from requsets from react app
-    /*.use((req,res,next) => {
+    .use((req,res,next) => {
         res.setHeader('Access-Control-Allow-Origin','*');
         next();
-    })*/;
+    });
 
 // Listen for requests
-app.set("port", 3000);
+app.set("port", process.env.PORT || 3000);
 app.listen(app.get("port"), () => {
     console.log("Now listening for connection on port: " + app.get("port"));
 });
@@ -67,12 +66,10 @@ app.use((req, res, next) => {
     else res.status(400).send();
 });
 
-//app.get('/', mainController.home);
-
-app.use('/todo', require('./routes/todo.js'));
-app.use('/user', require('./routes/user.js'));
-app.use('/group', require('./routes/group.js'));
-app.use('/company', require('./routes/company.js'));
+app.use('/todo', require('./routes/todo'));
+app.use('/user', require('./routes/user'));
+app.use('/group', require('./routes/group'));
+app.use('/company', require('./routes/company'));
 
 
 
