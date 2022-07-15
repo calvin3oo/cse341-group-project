@@ -114,68 +114,6 @@
         }
       }
     },
-    "/todo/{groupId}": {
-      "get": {
-        "tags": [
-          "Todo"
-        ],
-        "description": "get all todos that belong to a group",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "groupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The Group ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sends back array of all todos in the specific group",
-            "schema": {
-              "$ref": "#/definitions/todosArray"
-            }
-          },
-          "400": {
-            "description": "Invalid Request"
-          }
-        }
-      }
-    },
-    "/todo/{userId}": {
-      "get": {
-        "tags": [
-          "Todo"
-        ],
-        "description": "get all todos that belong to a user",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The User ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sends back array of all todos where the primary responsible is the user",
-            "schema": {
-              "$ref": "#/definitions/todosArray"
-            }
-          },
-          "400": {
-            "description": "Invalid Request"
-          }
-        }
-      }
-    },
     "/todo/{todoId}": {
       "get": {
         "tags": [
