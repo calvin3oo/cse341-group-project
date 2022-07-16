@@ -3,37 +3,37 @@
 //Work in Progress:
 const company= {
 
-    companyName: {
+    name: {
         required: false,
         editable: true,
     },
 
-    companyEmail: {
+    email: {
         required: false,
         editable: true,
     },
 
-    companyPhone: {
+    phone: {
         required: false,
         editable: true,
     },
 
-    companyURL: {
+    URL: {
         required: false,
         editable: true,
     },
 
-    companyStatus: {
+    status: {
         required: false,
         editable: true,
     },
 
-    companyTodoPermissions : {
+    todoPermissions : {
         required: false,
         editable: true,
     },
 
-    companyActiveUsers : {
+    activeUsers : {
         required: false,
         editable: true,
     },
