@@ -59,7 +59,7 @@ module.exports.getTodoById = async (req, res, next) => {
         //define filter
         const filter = { _id: ObjectId(req.params.todoId) };
 
-        const response = await col.find(filter).catch(err => { throw new Error('error getting todo by ID'); });
+        const response = await col.findOne(filter);
 
         res.status(200).send(response);
     } catch (err) { next(err) }
@@ -122,7 +122,7 @@ module.exports.updateTodo = async (req, res, next) => {
         const filter = { _id: ObjectId(req.params.todoId) };
 
         var newData = validateData(req.body);
-        const comments = newData.feed[0];
+        const comments = newData.feed?.[0];
         delete newData.feed;
 
         const update = {

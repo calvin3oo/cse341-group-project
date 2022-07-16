@@ -4,8 +4,10 @@ const mongo = require('./mongo.js');
 module.exports.auth = async(req, res, next) => {
     // #swagger.tags = ['Auth']
     // #swagger.description = 'The path that redirects to a url for oauth logging in'
+    const url = `https://github.com/login/oauth/authorize?client_id=${process.env.OAUTH_ID}`;
+
     try{
-        res.redirect(`https://github.com/login/oauth/authorize?client_id=${process.env.OAUTH_ID}`);
+        res.render(`redirect`, {url} );
     }catch(err){next(err)}
 }
 

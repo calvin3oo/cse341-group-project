@@ -3,35 +3,16 @@
 //Work in Progress:
 const Group= {
 
-    groupName:  {
+    name:  {
         required: false,
         editable: true,
     },
 
-    groupLeadName: {
+    userIDs: {
         required: false,
         editable: true,
     },
-    groupLeadEmail: {
-        required: false,
-        editable: true,
-    },
-
-    groupLeadPhone: {
-        required: false,
-        editable: true,
-    },
-
-    activeGroupMembers: {
-        required: false,
-        editable: true,
-    },
-    groupStatus: {
-        required: false,
-        editable: true,
-    },
-
-    GroupPermissions: {
+    members: {
         required: false,
         editable: true,
     },

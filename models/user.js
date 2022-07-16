@@ -41,5 +41,5 @@ const User= {
 }
 
 module.exports = {
-    "model":todo
+    "model":User
 };

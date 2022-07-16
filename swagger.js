@@ -57,12 +57,13 @@ const doc = {
     },
     updateGroup : {
       name:"New Group",
-      userIDsToAdd:["12345"],
-      userIDsToRemove:["12345"],
+      members:[
+        "12345"
+      ]
     },
     addGroup : {
       $name:"New Group",
-      userIDs:["12345"]
+      members:["12345"]
     },
     usersArray:[
       {

@@ -4,9 +4,9 @@ const todoController = require('../controllers/todoController.js');
 
 router.get('/', todoController.getAllTodos);
 
-router.get('/:groupId', todoController.getTodosByGroup);
+// router.get('/:groupId', todoController.getTodosByGroup);
 
-router.get('/:userId', todoController.getTodosByUser);
+// router.get('/:userId', todoController.getTodosByUser);
 
 router.get('/:todoId', todoController.getTodoById);
 

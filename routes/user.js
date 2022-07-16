@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController.js');
 
-router.get('/:groupId', userController.getAllUsers);
+router.get('/', userController.getAllUsers);
 
 router.post('/', userController.addNewUser);
 

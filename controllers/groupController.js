@@ -60,7 +60,7 @@ module.exports.getGroup = async (req, res, next) => {
         //define filter
         const filter = { _id: ObjectId(req.params.groupId) };
 
-        const response = await col.find(filter).catch(err => { throw new Error('error finding that group'); });
+        const response = await col.findOne(filter);
 
         res.status(200).send(response);
     } catch (err) { next(err) }
@@ -123,16 +123,12 @@ module.exports.updateGroup = async (req, res, next) => {
         const filter = { _id: ObjectId(req.params.groupId) };
 
         var newData = validateData(req.body);
-        const comments = newData.feed[0];
-        delete newData.feed;
-
-        const update = {
-            $set: newData,
-            $push: { "feed": comments }
+        
+        var update = {
+            $set: newData
         };
-
-        const response = await col.updateOne(filter, update).catch(err => { throw new Error('error updating group'); });
-
+        var response = null;
+        response = await col.updateOne(filter, update).catch(err => { throw new Error(err || 'error updating group'); });
         res.status(200).send(response);
     } catch (err) { next(err) }
     client.close();

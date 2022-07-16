@@ -1,5 +1,4 @@
-const mongo = require('../controllers/mongo.js');
-const { model: todoModel } = require('../models/user.js');
+const { model } = require('../models/user.js');
 const mongo = require('./mongo.js');
 const  ObjectId = require('mongodb').ObjectId;
 
@@ -15,7 +14,6 @@ module.exports.getAllUsers = async (req, res, next) => {
     // #swagger.tags = ['User']
     // #swagger.produces = ['application/json']
     // #swagger.consumes = ['application/json']
-    // #swagger.parameters['groupId'] = { description: 'The ID of the group to get all users from, Required' }
     /* #swagger.responses[200] = {
       description: 'Sends back array of users',
       schema: { $ref: '#/definitions/usersArray' }
