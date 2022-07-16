@@ -70,9 +70,7 @@ module.exports.getCompany = async (req, res, next) => {
     //define filter
     const filter = { _id: ObjectId(req.params.companyId) };
 
-    const response = await col.find(filter).catch((err) => {
-      throw new Error("error getting company By ID");
-    });
+    const response = await col.findOne(filter);
 
     res.status(200).send(response);
   } catch (err) {
@@ -145,12 +143,9 @@ module.exports.updateCompany = async (req, res, next) => {
     const filter = { _id: ObjectId(req.params.companyId) };
 
     var newData = validateData(req.body);
-    const comments = newData.feed[0];
-    delete newData.feed;
 
     const update = {
-      $set: newData,
-      $push: { feed: comments },
+      $set: newData
     };
 
     const response = await col.updateOne(filter, update).catch((err) => {

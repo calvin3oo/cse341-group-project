@@ -5,15 +5,15 @@
     "description": "The api documentation for the TODOS group for CSE 341",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-group-project.herokuapp.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "securityDefinitions": {
     "oAuth2": {
       "type": "oauth2",
-      "authorizationUrl": "http://localhost:3000/auth/",
+      "authorizationUrl": "https://cse341-group-project.herokuapp.com/auth/",
       "flow": "authorizationCode"
     }
   },
@@ -811,7 +811,7 @@
           "type": "string",
           "example": "New Group"
         },
-        "userIDs": {
+        "members": {
           "type": "array",
           "example": [
             "12345"
