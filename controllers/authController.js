@@ -1,13 +1,16 @@
 const axios = require('axios').default;
 const mongo = require('./mongo.js');
 
-module.exports.auth = async(req, res, next) => {
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+module.exports.auth = (req, res, next) => {
     // #swagger.tags = ['Auth']
     // #swagger.description = 'The path that redirects to a url for oauth logging in'
     const url = `https://github.com/login/oauth/authorize?client_id=${process.env.OAUTH_ID}`;
 
     try{
-        res.render(`redirect`, {url} );
+        res.redirect(url);
     }catch(err){next(err)}
 }
 
@@ -61,6 +64,64 @@ module.exports.logout = async(req, res, next) => {
     // #swagger.description = 'The path that deletes the session'
     try{
         req.session = null;
-        res.status(200).send();
+        res.redirect('/login');
+    }catch(err){next(err)}
+}
+
+module.exports.signup = async(req, res, next) => {
+    try{
+        client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
+        const col = client.db("cse341-w5").collection("users");
+
+        console.dir(req.body);
+
+        const search = await col.findOne({username: req.body.username}).catch(err => {throw new Error('error getting user from MongoDB');});
+        if(search){
+            console.dir(search);
+            res.status(400).send('username already exists');
+            return;
+        }
+
+        bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+            // Store hash in your password DB.
+            req.body.password = hash;
+
+            req.body.createdDate = Date.now();
+
+            const result = await col.insertOne(req.body).catch(err => {throw new Error('error adding user to MongoDB');});
+
+        });
+
+    }catch(err){next(err)}
+}
+
+
+module.exports.login = async(req, res, next) => {
+    try{
+        req.session.loggedIn = true;
+
+        //connect to mongo
+        var client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
+        const col = client.db("cse341-w5").collection("users");
+
+        //get user from database
+        const user = await col.findOne({username: req.body.username}).catch(err => {throw new Error('error getting user from MongoDB');});
+        if(!user){
+            res.status(400).send('username does not exist');
+            return;
+        }
+
+        //compare password
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+            if(result){
+                req.session.user = {
+                    name : user.username,
+                    id : user.id
+                }
+                res.status(200).send();
+            }else{
+                res.status(400).send('password is incorrect');
+            }
+        });
     }catch(err){next(err)}
 }

@@ -8,4 +8,18 @@ module.exports = [
         filename: 'index.js'
       },
     },
+    {
+      entry: './Static/js/login.js',              //entry
+      output: {
+        path: path.resolve(__dirname, 'Static/dist'),    //output where to put/what to name webpack folder
+        filename: 'login.js'
+      },
+    },
+    {
+      entry: './Static/js/sign-up.js',              //entry
+      output: {
+        path: path.resolve(__dirname, 'Static/dist'),    //output where to put/what to name webpack folder
+        filename: 'sign-up.js'
+      },
+    },
 ];

@@ -9,4 +9,9 @@ router.get('/oauth-callback', authController.oauthcallback);
 
 router.get('/logout', authController.logout);
 
+
+router.post('/login', authController.login);
+
+router.post('/signup', authController.signup);
+
 module.exports = router;

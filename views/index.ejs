@@ -4,10 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sign Up</title>
+    <%- include('./snippets/head.ejs'); %>
+
     <script src="./dist/index.js" defer></script>
+    <link rel="stylesheet" href="../static/css/styles.css">
 </head>
 <body>
-    <h1 id="name"></h1>
+    <nav>
+        <a class="active" href="/">Home</a>
+        <a href="/auth/logout">Log Out</a>
+    </nav>
+    <main>
+        <div class="todos">
+            <h1>Todos</h1>
+            <div id="todo-container">
+
+            </div>
+            <div id="todo-loader" class="loader">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Calvin Olson @2022 Last Updated: Jul/20/2022</p>
+    </footer>
 </body>
 </html>

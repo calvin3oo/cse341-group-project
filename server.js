@@ -48,19 +48,33 @@ app.use(cookieSession({
 //ROUTES
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+app.get('/sign-up', (req, res) => {
+    res.render('sign-up');
+});
+
 //login stuff
 app.use('/auth', require('./routes/auth.js'));
 
 // middleware to test if authenticated
 app.use((req, res, next) => {
     if (req.session?.loggedIn) next();
-    else res.status(400).send();
+    else res.redirect('/login');
 });
+
 
 app.use('/todo', require('./routes/todo'));
 app.use('/user', require('./routes/user'));
 app.use('/group', require('./routes/group'));
 app.use('/company', require('./routes/company'));
+
+app.get('/', (req, res) => {
+    res.render('index');
+});
+
+app.use((req, res) => { res.render('404'); });
 
 
 

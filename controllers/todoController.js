@@ -148,6 +148,7 @@ module.exports.deleteTodo = async (req, res, next) => {
     } */
     // #swagger.responses[400] = { description: 'Invalid Request'}
     var client;
+    console.log('deleting todo', req.params.todoId);
     try {
         //make mongodb connection
         client = await mongo.connectToMongoDB().catch(err => { throw new Error('error connecting to MongoDB'); });

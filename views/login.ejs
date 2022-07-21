@@ -5,22 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <%- include('./snippets/head.ejs'); %>
 
-    <!--<script src="./dist/index.js" defer></script>-->
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="./dist/login.js" defer></script>
 </head>
 <body>
-    <form id="user-form" action="">
-        <h1>Login</h1>
+    <form id="user-form">
+        <h1>Login Page</h1>
 
         <label for="username">Username:</label>
-        <input id="username" name="username" type="text">
+        <input id="username" name="username" type="text" required>
+        <br>
 
         <label for="password">Password:</label>
-        <input id="password" name="password" type="password">
+        <input id="password" name="password" type="password" required>
+        <br>
 
         <button type="submit">Login</button>
 
-        <p>No Account? <a href="/user/signup">Sign Up</a></p>
+        <p>No Account? <a href="/sign-up">Sign Up</a></p>
+        <!--<hr>
+        <p>or Sign in Using One of These:</p>
+        <div>
+            <a class="alt-login" href="https://github.com/login/oauth/authorize?client_id="><img src="../static/media/github-icon.png" alt="Github Logo Link for Signing In"></a>
+            <a class="alt-login" href="https://github.com/login/oauth/authorize?client_id="><img src="../static/media/google-icon.png" alt="Google Logo Link for Signing In"></a>
+        </div> -->
     </form>
 </body>
 </html>

@@ -1,1 +1,0 @@
-window.location.replace(document.getElementById('url').innerHTML);
