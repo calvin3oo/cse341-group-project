@@ -16,10 +16,10 @@ module.exports = [
       },
     },
     {
-      entry: './Static/js/sign-up.js',              //entry
+      entry: './Static/js/signup.js',              //entry
       output: {
         path: path.resolve(__dirname, 'Static/dist'),    //output where to put/what to name webpack folder
-        filename: 'sign-up.js'
+        filename: 'signup.js'
       },
     },
 ];
