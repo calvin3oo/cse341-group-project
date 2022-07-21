@@ -1,5 +1,8 @@
 //allows to use environment variables in .env file
 require('dotenv').config();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+module.exports.bcrypt = bcrypt;
 
 
 // express framework

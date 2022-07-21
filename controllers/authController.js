@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 const mongo = require('./mongo.js');
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('../app.js').bcrypt
 const saltRounds = 10;
 
 module.exports.auth = (req, res, next) => {
