@@ -70,9 +70,7 @@ module.exports.logout = async(req, res, next) => {
 module.exports.signup = async(req, res, next) => {
     try{
         client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
-        const col = client.db("cse341-w5").collection("users");
-
-        console.dir(req.body);
+        var col = client.db("cse341-w5").collection("users");
 
         const search = await col.findOne({username: req.body.username}).catch(err => {throw new Error('error getting user from MongoDB');});
         if(search){
@@ -82,15 +80,21 @@ module.exports.signup = async(req, res, next) => {
         }
 
         bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+            client = await mongo.connectToMongoDB().catch(err => {throw new Error('error connecting to MongoDB');});
+            var col = client.db("cse341-w5").collection("users");
+
             // Store hash in your password DB.
             req.body.password = hash;
 
             req.body.createdDate = Date.now();
 
-            const result = await col.insertOne(req.body).catch(err => {throw new Error('error adding user to MongoDB');});
+            const result = await col.insertOne(req.body).catch(err => {
+                console.log(err.message);
+                throw new Error('error adding user to MongoDB');
+            });
 
         });
-
+        req.session.loggedIn = true;
         res.status(200).send();
         client.close();
 
