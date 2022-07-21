@@ -1,7 +1,5 @@
 const axios = require('axios').default;
 const mongo = require('./mongo.js');
-
-const bcrypt = require('../app.js').bcrypt
 const saltRounds = 10;
 
 module.exports.auth = (req, res, next) => {
@@ -81,6 +79,7 @@ module.exports.signup = async(req, res, next) => {
             res.status(400).send('username already exists');
             return;
         }
+        var bcrypt = app.get('bcrypt');
 
         bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
             // Store hash in your password DB.
@@ -110,7 +109,7 @@ module.exports.login = async(req, res, next) => {
             res.status(400).send('username does not exist');
             return;
         }
-
+        var bcrypt = app.get('bcrypt');
         //compare password
         bcrypt.compare(req.body.password, user.password, function(err, result) {
             if(result){

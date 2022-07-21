@@ -1,8 +1,6 @@
 //allows to use environment variables in .env file
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
-module.exports.bcrypt = bcrypt;
 
 
 // express framework
@@ -39,6 +37,7 @@ app.set("port", process.env.PORT || 3000);
 app.listen(app.get("port"), () => {
     console.log("Now listening for connection on port: " + app.get("port"));
 });
+app.set("bcrypt", bcrypt);
 
 app.use(cookieSession({
     name: 'session',
